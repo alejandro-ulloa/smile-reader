@@ -7,6 +7,7 @@
 
 import UIKit
 import ARKit
+import SnapKit
 
 class ViewController: UIViewController {
   
@@ -37,19 +38,22 @@ class ViewController: UIViewController {
     sceneView.delegate = self
     view.addSubview(sceneView)
     
+    sceneView.snp.makeConstraints {
+      $0.center.equalTo(view)
+      $0.edges.equalTo(view)
+    }
+    
     buildSmileLabel()
   }
   
   func buildSmileLabel() {
     smileLabel.text = "😐"
     smileLabel.font = UIFont.systemFont(ofSize: 150)
-    
     view.addSubview(smileLabel)
-    
-    // Set constraints
-    smileLabel.translatesAutoresizingMaskIntoConstraints = false
-    smileLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-    smileLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+    smileLabel.snp.makeConstraints {
+      $0.leading.equalTo(view).offset(15)
+      $0.bottom.equalTo(view).offset(-15)
+    }
   }
   
   func handleSmile(smileValue: CGFloat) {
