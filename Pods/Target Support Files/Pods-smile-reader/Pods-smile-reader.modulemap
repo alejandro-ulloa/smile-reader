@@ -1,0 +1,6 @@
+module Pods_smile_reader {
+  umbrella header "Pods-smile-reader-umbrella.h"
+
+  export *
+  module * { export * }
+}
