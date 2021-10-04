@@ -15,6 +15,8 @@ class ViewController: UIViewController {
   
   let smileLabel = UILabel()
   
+  let imageView = UIImageView()
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     guard ARFaceTrackingConfiguration.isSupported else {
@@ -33,6 +35,12 @@ class ViewController: UIViewController {
   }
   
   func setupSmileTracker() {
+    buildARScenView()
+    buildSmileLabel()
+    buildImageView()
+  }
+  
+  func buildARScenView() {
     let configuration = ARFaceTrackingConfiguration()
     sceneView.session.run(configuration)
     sceneView.delegate = self
@@ -42,8 +50,6 @@ class ViewController: UIViewController {
       $0.center.equalTo(view)
       $0.edges.equalTo(view)
     }
-    
-    buildSmileLabel()
   }
   
   func buildSmileLabel() {
@@ -56,10 +62,22 @@ class ViewController: UIViewController {
     }
   }
   
+  func buildImageView() {
+    view.addSubview(imageView)
+    imageView.contentMode = .scaleAspectFit
+    imageView.snp.makeConstraints {
+      $0.bottom.trailing.equalTo(view).offset(-15)
+      $0.width.equalTo(200)
+      $0.height.equalTo(300)
+    }
+  }
+  
   func handleSmile(smileValue: CGFloat) {
     switch smileValue {
       case _ where smileValue > 0.5:
         smileLabel.text = "😁"
+        let image = sceneView.snapshot()
+        imageView.image = image
       case _ where smileValue > 0.2:
         smileLabel.text = "🙂"
       default:
